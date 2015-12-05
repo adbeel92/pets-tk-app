@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Favorite Pets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pet</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @favorite_pets.each do |favorite_pet| %>
+      <tr>
+        <td><%= favorite_pet.pet_id %></td>
+        <td><%= favorite_pet.user_id %></td>
+        <td><%= link_to 'Show', favorite_pet %></td>
+        <td><%= link_to 'Edit', edit_favorite_pet_path(favorite_pet) %></td>
+        <td><%= link_to 'Destroy', favorite_pet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Favorite pet', new_favorite_pet_path %>

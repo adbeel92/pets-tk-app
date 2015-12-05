@@ -4,7 +4,8 @@ class PetsController < ApplicationController
   # GET /pets
   # GET /pets.json
   def index
-    @pets = Pet.all
+    @user = User.find_by(id: params[:user_id])
+    @pets = Pet.all.each{|x| x.is_favorite = ( @user ? x.user_id == @user.id : false )}
   end
 
   # GET /pets/1
@@ -61,6 +62,24 @@ class PetsController < ApplicationController
     end
   end
 
+  def add_favorite
+    @favorite_pet = FavoritePet.find_or_initialize_by(user_id: params[:user_id], pet_id: params[:pet_id])
+    @favorite_pet.save
+    @pet = Pet.find_by(id: @favorite_pet.pet_id)
+    @pet.is_favorite = true
+    @user = User.find_by(id: @favorite_pet.user_id)
+    render 'pets/show', location: @pet
+  end
+
+  def remove_favorite
+    @favorite_pet = FavoritePet.find_by(user_id: params[:user_id], pet_id: params[:pet_id])
+    @pet = Pet.find_by(id: @favorite_pet.pet_id)
+    @pet.is_favorite = false
+    @user = User.find_by(id: @favorite_pet.user_id)
+    @favorite_pet.delete
+    render 'pets/show', location: @pet
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_pet
@@ -69,6 +88,6 @@ class PetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pet_params
-      params.require(:pet).permit(:name, :family, :user_fb_id, :image_url)
+      params.require(:pet).permit(:name, :family, :user_id, :image_url)
     end
 end
