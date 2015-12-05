@@ -17,7 +17,7 @@
 
 <p>
   <strong>Image url:</strong>
-  <%= @pet.image_url %>
+	<%= image_tag @pet.image.url, width: 200 %>
 </p>
 
 <%= link_to 'Edit', edit_pet_path(@pet) %> |
