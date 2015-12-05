@@ -3,11 +3,11 @@
 one:
   name: MyString
   family: MyString
-  user_fb_id: MyString
+  user_id: MyString
   image_url: MyString
 
 two:
   name: MyString
   family: MyString
-  user_fb_id: MyString
+  user_id: MyString
   image_url: MyString
