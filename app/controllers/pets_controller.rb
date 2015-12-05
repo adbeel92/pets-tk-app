@@ -5,7 +5,7 @@ class PetsController < ApplicationController
   # GET /pets.json
   def index
     @user = User.find_by(id: params[:user_id])
-    @pets = Pet.all.each{|x| x.is_favorite = ( @user ? x.user_id == @user.id : false )}
+    @pets = Pet.all.each{|x| x.is_favorite = ( FavoritePet.exists?(user_id: @user.nil? ? nil : @user.id, pet_id: x.id) )}
   end
 
   # GET /pets/1
