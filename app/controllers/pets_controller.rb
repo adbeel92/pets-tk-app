@@ -5,7 +5,14 @@ class PetsController < ApplicationController
   # GET /pets.json
   def index
     @user = User.find_by(id: params[:user_id])
-    @pets = Pet.all.each{|x| x.is_favorite = ( FavoritePet.exists?(user_id: @user.nil? ? nil : @user.id, pet_id: x.id) )}
+    @pets = Pet.all.each do |x| 
+      x.is_favorite = ( FavoritePet.exists?(user_id: @user.nil? ? nil : @user.id, pet_id: x.id) )
+      x.image_url = request.base_url + x.image.url
+   end
+
+   puts 'this'
+   puts request.base_url
+
   end
 
   # GET /pets/1
